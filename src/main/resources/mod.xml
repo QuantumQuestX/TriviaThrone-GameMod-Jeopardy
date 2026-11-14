@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mod id="example-quiz">
+    <name>Example Quiz</name>
+    <version>1.0.0</version>
+    <apiVersion>2.0.0</apiVersion>
+    <description>A minimal example game mod.</description>
+    <providers>
+        <provider class="example.triviathrone.game.ExampleQuizProvider"/>
+    </providers>
+</mod>
