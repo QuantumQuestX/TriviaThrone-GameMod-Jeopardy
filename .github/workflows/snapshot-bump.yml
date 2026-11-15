@@ -1,0 +1,107 @@
+name: Bump snapshot version
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: "Version component to increment"
+        required: true
+        type: choice
+        options:
+          - major
+          - minor
+          - patch
+
+permissions:
+  contents: write
+
+concurrency:
+  group: versioning
+  cancel-in-progress: false
+
+jobs:
+  bump:
+    name: Bump ${{ inputs.bump }} snapshot
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "25"
+          cache: maven
+
+      - name: Calculate next snapshot version
+        id: version
+        env:
+          BUMP: ${{ inputs.bump }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [[ "$GITHUB_REF_TYPE" != "branch" ]]; then
+            echo "Snapshot versions must be bumped from a branch." >&2
+            exit 1
+          fi
+
+          current_version="$(mvn --batch-mode --no-transfer-progress -q \
+            -DforceStdout help:evaluate -Dexpression=project.version)"
+          current_version="${current_version%-SNAPSHOT}"
+          version_pattern='^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$'
+          if [[ "$current_version" =~ $version_pattern ]]; then
+            major="${BASH_REMATCH[1]}"
+            minor="${BASH_REMATCH[2]}"
+            patch="${BASH_REMATCH[3]}"
+          else
+            echo "Expected a semantic version like 1.2.3[-SNAPSHOT], got: $current_version" >&2
+            exit 1
+          fi
+
+          case "$BUMP" in
+            major) major=$((major + 1)); minor=0; patch=0 ;;
+            minor) minor=$((minor + 1)); patch=0 ;;
+            patch) patch=$((patch + 1)) ;;
+            *) echo "Unsupported version bump: $BUMP" >&2; exit 1 ;;
+          esac
+
+          echo "version=${major}.${minor}.${patch}-SNAPSHOT" >> "$GITHUB_OUTPUT"
+
+      - name: Update POM version
+        env:
+          SNAPSHOT_VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+          mvn --batch-mode --no-transfer-progress \
+            org.codehaus.mojo:versions-maven-plugin:2.18.0:set \
+            -DnewVersion="$SNAPSHOT_VERSION" \
+            -DgenerateBackupPoms=false \
+            -DprocessParent=false \
+            -DprocessDependencies=false \
+            -DprocessPlugins=false
+
+          actual_version="$(mvn --batch-mode --no-transfer-progress -q \
+            -DforceStdout help:evaluate -Dexpression=project.version)"
+          if [[ "$actual_version" != "$SNAPSHOT_VERSION" ]]; then
+            echo "Expected POM version $SNAPSHOT_VERSION, got: $actual_version" >&2
+            exit 1
+          fi
+
+      - name: Commit and push snapshot version
+        env:
+          SNAPSHOT_VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -- pom.xml
+          if git diff --cached --quiet; then
+            echo "No POM version change to commit." >&2
+            exit 1
+          fi
+          git commit -m "Prepare Jeopardy $SNAPSHOT_VERSION"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
