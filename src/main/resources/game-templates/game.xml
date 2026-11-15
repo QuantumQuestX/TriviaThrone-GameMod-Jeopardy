@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<game id="UUID_PLACEHOLDER" version="1.0">
+  <metadata>
+  </metadata>
+
+  <resources>
+  </resources>
+
+  <structure>
+    <rounds>
+      <round id="round-1" title="Double Jeopardy">
+        <categories>
+          <category id="cat-1" title="Science">
+            <questions>
+              <question id="q-1" type="standard" points="100" difficulty="easy">
+                <prompt><![CDATA[What is H2O?]]></prompt>
+                <choices>
+                  <choice correct="true">Water</choice>
+                  <choice>Oxygen</choice>
+                  <choice>Hydrogen</choice>
+                </choices>
+                <media ref="res-1"/>
+              </question>
+            </questions>
+          </category>
+        </categories>
+      </round>
+    </rounds>
+  </structure>
+</game>

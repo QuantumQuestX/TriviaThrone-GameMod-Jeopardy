@@ -3,25 +3,113 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Example Quiz - TriviaThrone</title>
+        <title>Game - TriviaThrone</title>
+        <link rel="stylesheet" href="/mods/jeopardy/ui/css/game.css" />
         <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
     </head>
-    <body>
-        <main>
-            <h1 id="game-title">Example quiz</h1>
-            <p id="game-status" role="status" aria-live="polite">Connecting to game…</p>
-            <section aria-labelledby="question-heading">
-                <h2 id="question-heading">Question</h2>
-                <p id="question-text"></p>
-                <button id="reveal-answer" type="button" disabled>Reveal answer</button>
-                <p id="answer-text" hidden></p>
+    <body class="game-page tt-shell">
+        <div data-topbar="game"></div>
+
+        <main class="game-layout" data-game="jeopardy">
+            <section id="question-panel" class="game-stage panel tt-card">
+                <div id="jeopardy-board" class="hidden">
+                    <h2 id="jeopardy-round-title">&lt;round-title&gt;</h2>
+                    <div id="round-selector" class="round-selector" role="tablist" aria-label="Game rounds"></div>
+                    <div id="jeopardy-canvas"></div>
+                </div>
+                <div id="question-display" class="question-view hidden">
+                    <div class="question-header">
+                        <span id="question-category">Category Name</span>
+                        <span id="question-points">100</span>
+                    </div>
+
+                    <div class="question-body">
+                        <div id="question-text" class="question-text">Here goes the question prompt...</div>
+
+                        <div id="question-media" class="question-media">
+                            <div id="media-frame" class="media-frame hidden">
+                                <div id="media-placeholder" class="media-placeholder" role="status" aria-live="polite">
+                                    <span class="media-placeholder-icon" aria-hidden="true">▶</span>
+                                    <p id="media-placeholder-text"></p>
+                                </div>
+                                <video id="q-media-video" class="hidden"></video>
+                            </div>
+                            <audio id="q-media-audio" class="hidden"></audio>
+                            <img id="q-media-image" class="hidden" alt="Question Media" />
+                        </div>
+
+                        <div id="question-choices" class="question-choices hidden">
+                            <div class="question-choice closed">Choice 1</div>
+                            <div class="question-choice closed">Choice 2</div>
+                            <div class="question-choice closed">Choice 3</div>
+                            <div class="question-choice closed">Choice 4</div>
+                        </div>
+                    </div>
+                </div>
             </section>
-            <section aria-label="Host controls">
-                <button id="start-game" type="button">Start game</button>
-                <button id="end-game" type="button" disabled>End game</button>
+
+            <p id="game-status" class="game-status tt-status" role="status" aria-live="polite">Connecting to game…</p>
+
+            <section
+                id="leaderboard-panel"
+                class="leaderboard panel tt-card hidden"
+                aria-labelledby="leaderboard-title"
+            >
+                <h2 id="leaderboard-title">Final Leaderboard</h2>
+                <ol id="leaderboard-list" class="leaderboard-list"></ol>
+                <button id="leaderboard-back" class="primary-btn tt-button tt-button--primary">Back to Lobby</button>
+            </section>
+
+            <section id="host-panel" class="host-controls panel tt-card" data-admin>
+                <div class="host-panel">
+                    <h4>Buzzer</h4>
+                    <div class="host-panel-container">
+                        <button id="host-buzzer-enable" class="primary-btn tt-button tt-button--primary" disabled>
+                            Open
+                        </button>
+                        <button id="host-buzzer-disable" class="primary-btn tt-button tt-button--primary" disabled>
+                            Close
+                        </button>
+                    </div>
+                </div>
+                <div class="host-panel">
+                    <h4>Question</h4>
+                    <div class="host-panel-container">
+                        <button id="host-play-media" class="primary-btn tt-button tt-button--primary" disabled>
+                            Play Media + Open Buzzer
+                        </button>
+                        <button id="host-show-question" class="primary-btn tt-button tt-button--primary" disabled>
+                            Correct
+                        </button>
+                        <button id="host-hide-question" class="danger-btn tt-button tt-button--danger" disabled>
+                            Incorrect (−½)
+                        </button>
+                    </div>
+                </div>
+                <button id="host-next-question" class="primary-btn tt-button tt-button--primary" disabled>
+                    Next Question
+                </button>
+                <button id="host-end-game" class="danger-btn tt-button tt-button--danger">
+                    End Game &amp; Show Leaderboard
+                </button>
+            </section>
+
+            <section id="player-buzzer-panel" class="player-buzzer-panel panel tt-card">
+                <div id="players-left" class="players players-left"></div>
+
+                <div id="main-buzzer-container" class="main-buzzer-container">
+                    <button id="main-buzzer" class="buzzer" disabled aria-label="Buzz in">BUZZ</button>
+                    <span id="main-score">0</span>
+                </div>
+
+                <div id="players-right" class="players players-right"></div>
             </section>
         </main>
-        <script type="module" src="/mods/example-quiz/ui/js/game.js"></script>
+
+        <script type="module" src="/js/root/topbar.js"></script>
+        <script type="module" src="/js/root/version.js"></script>
+        <script type="module" src="/js/root/credits.js"></script>
+        <script type="module" src="/mods/jeopardy/ui/js/game/index.js"></script>
     </body>
 </html>

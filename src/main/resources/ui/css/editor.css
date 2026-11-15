@@ -1,0 +1,10 @@
+@import "/css/root.css";
+@import "/css/components/panel.css";
+@import "/css/components/buttons.css";
+@import "/css/components/uploads.css";
+@import "/css/components/inputs.css";
+@import "/mods/jeopardy/ui/css/editor/panel.css";
+@import "/mods/jeopardy/ui/css/editor/resources.css";
+@import "/mods/jeopardy/ui/css/editor/settings.css";
+@import "/mods/jeopardy/ui/css/editor/question-editor.css";
+@import "/mods/jeopardy/ui/css/jeopardy.css";

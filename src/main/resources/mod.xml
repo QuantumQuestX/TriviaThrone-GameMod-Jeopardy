@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mod id="example-quiz">
-    <name>Example Quiz</name>
-    <version>1.0.0</version>
+<mod id="jeopardy">
+    <name>Jeopardy</name>
+    <version>${project.version}</version>
     <apiVersion>2.0.0</apiVersion>
-    <description>A minimal example game mod.</description>
+    <description>Jeopardy-style trivia game.</description>
     <providers>
-        <provider class="example.triviathrone.game.ExampleQuizProvider"/>
+        <provider class="quantumquest.triviathrone.jeopardy.JeopardyGameProvider"/>
     </providers>
 </mod>

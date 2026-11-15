@@ -1,0 +1,80 @@
+.question-editor-panel {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.question-editor {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+}
+
+.question-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+#question-choice-settings,
+#question-media-settings {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+#question-choice-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 275px;
+    overflow: auto;
+}
+
+.editor-page .question-choice {
+    display: flex;
+    align-items: stretch;
+    gap: 8px;
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg-panel-light);
+}
+
+.editor-page .question-choice input[type="text"] {
+    flex: 1 1 auto;
+    padding: 6px 8px;
+    border-radius: var(--radius-sm);
+    background: var(--bg-panel);
+}
+
+.editor-page .question-choice input[type="text"]:focus {
+    border-style: dashed;
+}
+
+.editor-page .question-choice input[type="checkbox"] {
+    flex: 0 0 auto;
+    accent-color: var(--accent);
+    transform: scale(1.05);
+}
+
+.editor-page .question-choice .danger-btn {
+    min-width: 32px;
+    padding: 0;
+    border-radius: var(--radius-sm);
+}
+
+#question-editor-apply-btn {
+    margin-top: 1rem;
+    max-height: 40px;
+}
+
+#question-category-input {
+    cursor: not-allowed;
+    pointer-events: none;
+}

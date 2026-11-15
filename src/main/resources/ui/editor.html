@@ -3,35 +3,223 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Example Quiz Creator - TriviaThrone</title>
+        <title>Editor - TriviaThrone</title>
+        <link rel="stylesheet" href="/mods/jeopardy/ui/css/editor.css" />
     </head>
-    <body>
-        <main>
-            <h1>Create an example quiz</h1>
-            <p>Create a game package, then import it into a lobby.</p>
-            <form id="quiz-form">
-                <p>
-                    <label for="title">Game title</label>
-                    <input id="title" name="title" type="text" value="Example quiz" required />
-                </p>
-                <p>
-                    <label for="question">Question</label>
-                    <input
-                        id="question"
-                        name="question"
-                        type="text"
-                        value="What is the answer to life, the universe, and everything?"
-                        required
-                    />
-                </p>
-                <p>
-                    <label for="answer">Answer</label>
-                    <input id="answer" name="answer" type="text" value="42" required />
-                </p>
-                <button type="submit">Download game package</button>
-            </form>
-            <p id="creator-status" role="status" aria-live="polite"></p>
-        </main>
-        <script type="module" src="/mods/example-quiz/ui/js/editor.js"></script>
+
+    <body class="editor-page tt-shell">
+        <div data-topbar="editor"></div>
+
+        <div class="editor-scroll-wrapper">
+            <main class="editor-layout">
+                <aside id="left-panel" class="side-panel panel tt-card collapsed">
+                    <div class="panel-header">
+                        <h2>Resources</h2>
+                        <div class="btn-container">
+                            <button id="left-panel-fold-btn" class="fold-btn">◀</button>
+                        </div>
+                    </div>
+                    <div class="panel-content">
+                        <div class="upload-container">
+                            <div id="upload-box" class="upload-box">
+                                <input type="file" id="game-file" multiple accept="image/*, video/mp4, audio/mpeg" />
+                                <label for="game-file">Drop or Select resource file</label>
+                            </div>
+                            <div id="upload-status" class="upload-status"></div>
+                        </div>
+                        <div class="separator"></div>
+                        <div id="resource-list" class="resource-list"></div>
+                    </div>
+                </aside>
+
+                <section class="panel tt-card">
+                    <div class="panel-header">
+                        <h2>Game Settings</h2>
+                    </div>
+                    <div class="panel-content game-settings">
+                        <div class="settings-box">
+                            <div class="settings-top">
+                                <!-- Left Column: Game Meta -->
+                                <div class="settings-meta">
+                                    <div class="setting-item">
+                                        <label for="game-title" class="setting-item-title">Game Title</label>
+                                        <input
+                                            class="tt-control"
+                                            type="text"
+                                            id="game-title"
+                                            placeholder="Enter game title"
+                                            value="Untitled Game"
+                                        />
+                                    </div>
+                                    <div class="setting-item">
+                                        <label for="game-description" class="setting-item-title">Description</label>
+                                        <textarea
+                                            class="tt-control"
+                                            id="game-description"
+                                            placeholder="Enter game description"
+                                        ></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- Right Column: Round & Counters -->
+                                <div class="settings-rounds">
+                                    <div class="round-select-group">
+                                        <label class="setting-item-title">Round</label>
+                                        <div class="round-input-group">
+                                            <select id="round-select" class="tt-control"></select>
+                                            <input
+                                                class="tt-control"
+                                                type="text"
+                                                id="round-name"
+                                                placeholder="Round name"
+                                                maxlength="16"
+                                            />
+                                            <button
+                                                id="add-round-btn"
+                                                type="button"
+                                                class="secondary-btn tt-button tt-button--secondary"
+                                            >
+                                                Add
+                                            </button>
+                                            <button
+                                                id="remove-round-btn"
+                                                type="button"
+                                                class="secondary-btn tt-button tt-button--secondary"
+                                            >
+                                                Remove
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="counter-row">
+                                        <div class="setting-item">
+                                            <label class="setting-item-title">Categories</label>
+                                            <div class="horizontal-item-group">
+                                                <button
+                                                    id="category-count-dec"
+                                                    type="button"
+                                                    class="secondary-btn tt-button tt-button--secondary mono"
+                                                >
+                                                    -
+                                                </button>
+                                                <span id="category-count-text" class="count-text mono">1</span>
+                                                <button
+                                                    id="category-count-inc"
+                                                    type="button"
+                                                    class="secondary-btn tt-button tt-button--secondary mono"
+                                                >
+                                                    +
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="setting-item">
+                                            <label class="setting-item-title">Questions</label>
+                                            <div class="horizontal-item-group">
+                                                <button
+                                                    id="question-count-dec"
+                                                    type="button"
+                                                    class="secondary-btn tt-button tt-button--secondary mono"
+                                                >
+                                                    -
+                                                </button>
+                                                <span id="question-count-text" class="count-text mono">1</span>
+                                                <button
+                                                    id="question-count-inc"
+                                                    type="button"
+                                                    class="secondary-btn tt-button tt-button--secondary mono"
+                                                >
+                                                    +
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div></div>
+                                <!-- EMPTY AREA -->
+                            </div>
+                        </div>
+                        <div class="game-board">
+                            <div id="jeopardy-canvas"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <aside id="right-panel" class="side-panel panel tt-card collapsed">
+                    <div class="panel-header">
+                        <div class="btn-container">
+                            <button id="right-panel-fold-btn" class="fold-btn">▶</button>
+                        </div>
+                        <h2>Question Editor</h2>
+                    </div>
+                    <div id="question-editor-panel" class="panel-content question-editor-panel">
+                        <div class="question-editor">
+                            <div class="question-container">
+                                <label class="setting-item-title">Category</label>
+                                <input
+                                    class="tt-control"
+                                    type="text"
+                                    id="question-category-input"
+                                    placeholder="Category 1"
+                                    readonly
+                                />
+                            </div>
+                            <div class="question-container">
+                                <label class="setting-item-title">Prompt</label>
+                                <input class="tt-control" type="text" id="question-prompt-input" placeholder="Prompt" />
+                            </div>
+                            <div class="question-container">
+                                <label class="setting-item-title">Points</label>
+                                <input
+                                    class="tt-control"
+                                    type="number"
+                                    min="100"
+                                    max="10000"
+                                    step="100"
+                                    id="question-points-input"
+                                    placeholder="100"
+                                />
+                            </div>
+                            <div class="question-container">
+                                <label class="setting-item-title">Type</label>
+                                <select id="question-type-select" class="tt-control" disabled>
+                                    <option value="text">Text</option>
+                                    <option value="audio">Audio</option>
+                                    <option value="video">Video</option>
+                                    <option value="image">Image</option>
+                                    <option value="mcq">Multiple Choice</option>
+                                </select>
+                            </div>
+                            <div id="question-media-settings" class="question-container">
+                                <label class="setting-item-title">Media</label>
+                                <select id="question-media-select" class="tt-control">
+                                    <option value="">-- Select Resource --</option>
+                                </select>
+                            </div>
+                            <div id="question-choice-settings" class="question-container">
+                                <label class="setting-item-title">Choices</label>
+                                <div id="question-choice-container"></div>
+                                <button
+                                    id="question-add-choice-btn"
+                                    type="button"
+                                    class="secondary-btn tt-button tt-button--secondary"
+                                >
+                                    Add Choice
+                                </button>
+                            </div>
+                        </div>
+                        <button id="question-editor-apply-btn" class="primary-btn tt-button tt-button--primary">
+                            Apply
+                        </button>
+                    </div>
+                </aside>
+            </main>
+        </div>
+
+        <script type="module" src="/js/root/topbar.js"></script>
+        <script type="module" src="/js/root/version.js"></script>
+        <script type="module" src="/js/root/credits.js"></script>
+        <script type="module" src="/mods/jeopardy/ui/js/editor/index.js"></script>
     </body>
 </html>

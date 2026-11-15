@@ -1,0 +1,118 @@
+.game-settings {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.settings-box,
+.game-board {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 15px;
+    background: var(--bg-panel-light);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+}
+
+.settings-box {
+    gap: 15px;
+}
+
+.setting-item {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.game-settings label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    opacity: 0.85;
+}
+
+.game-settings input,
+.game-settings textarea {
+    min-height: 42px;
+    font-size: 0.95rem;
+    transition: border-color 0.2s ease;
+}
+
+.game-settings textarea {
+    resize: vertical;
+    max-height: max(80px, 10vh);
+}
+
+.settings-top {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 40px;
+    width: 100%;
+}
+
+.settings-meta,
+.settings-rounds {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.settings-rounds {
+    justify-content: space-between;
+}
+
+.round-select-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.round-input-group,
+.counter-row,
+.horizontal-item-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.round-input-group {
+    flex-wrap: wrap;
+}
+
+.round-input-group input {
+    max-width: 150px;
+}
+
+#round-select {
+    width: auto;
+    flex: 1 1 9rem;
+}
+
+.counter-row .setting-item {
+    flex: 1;
+}
+
+.horizontal-item-group {
+    gap: 5px;
+}
+
+.count-text {
+    text-align: center;
+    border: none;
+    border-radius: var(--radius-sm);
+    color: white;
+    background: var(--btn);
+    padding: 10px 15px;
+    height: fit-content;
+}
+
+.mono {
+    font-family: monospace;
+    font-weight: 600;
+}
