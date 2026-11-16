@@ -35,14 +35,14 @@ Copy the JAR into the server's configured `mods/games/` directory and restart Tr
 
 ## mod identity
 
-| Property | Value |
-|---|---|
-| Mod ID | `jeopardy` |
-| Game type | `jeopardy` |
-| Package extension | `.game.throne` |
-| Provider | `quantumquest.triviathrone.jeopardy.JeopardyGameProvider` |
-| Game-data format | `1.0` |
-| API version | `2.0.0` |
+| Property          | Value                                                     |
+|-------------------|-----------------------------------------------------------|
+| Mod ID            | `jeopardy`                                                |
+| Game type         | `jeopardy`                                                |
+| Package extension | `.game.throne`                                            |
+| Provider          | `quantumquest.triviathrone.jeopardy.JeopardyGameProvider` |
+| Game-data format  | `1.0`                                                     |
+| API version       | `2.0.1`                                                   |
 
 The provider is registered in both `src/main/resources/mod.xml` and
 `src/main/resources/META-INF/services/quantumquest.triviathrone.api.game.IGameProvider`. Keep
@@ -56,7 +56,7 @@ The manifest must identify this provider:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <gamePackage manifestVersion="2.0">
-  <mod id="jeopardy" version="1.0.0" apiVersion="2.0.0"/>
+  <mod id="jeopardy" version="1.0.0" apiVersion="2.0.1"/>
   <game
       type="jeopardy"
       providerClass="quantumquest.triviathrone.jeopardy.JeopardyGameProvider"
