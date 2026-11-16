@@ -8,7 +8,7 @@ questions, optional multiple-choice answers, and optional media resources.
 
 - Java 25
 - Maven 3.9 or later
-- TriviaThrone game API 2.0.0
+- TriviaThrone game API 2.0.0 through 2.x releases
 
 The game API is provided by the TriviaThrone server and is not packaged into this mod. If the API
 is not already installed locally, install it from the TriviaThrone source tree:
@@ -42,7 +42,7 @@ Copy the JAR into the server's configured `mods/games/` directory and restart Tr
 | Package extension | `.game.throne`                                            |
 | Provider          | `quantumquest.triviathrone.jeopardy.JeopardyGameProvider` |
 | Game-data format  | `1.0`                                                     |
-| API version       | `2.0.1`                                                   |
+| API version       | `2.1.0`                                                   |
 
 The provider is registered in both `src/main/resources/mod.xml` and
 `src/main/resources/META-INF/services/quantumquest.triviathrone.api.game.IGameProvider`. Keep
@@ -56,7 +56,7 @@ The manifest must identify this provider:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <gamePackage manifestVersion="2.0">
-  <mod id="jeopardy" version="1.0.0" apiVersion="2.0.1"/>
+  <mod id="jeopardy" version="1.0.0" apiVersion="2.1.0"/>
   <game
       type="jeopardy"
       providerClass="quantumquest.triviathrone.jeopardy.JeopardyGameProvider"
