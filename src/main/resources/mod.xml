@@ -2,8 +2,8 @@
 <mod id="jeopardy">
     <name>Jeopardy</name>
     <version>${project.version}</version>
-    <apiVersion>2.1.0</apiVersion>
-    <apiCompatability minimum="2.0.0" maximumExclusive="3.0.0"/>
+    <apiVersion>2.2.1</apiVersion>
+    <apiCompatability minimum="2.0.0" maximumExclusive="2.3.0"/>
     <description>Jeopardy-style trivia game.</description>
     <providers>
         <provider class="quantumquest.triviathrone.jeopardy.JeopardyGameProvider"/>
