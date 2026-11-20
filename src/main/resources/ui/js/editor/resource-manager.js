@@ -1,3 +1,5 @@
+import { createId } from "./id.js";
+
 export class ResourceManager {
     constructor() {
         this.resources = new Map();
@@ -10,7 +12,7 @@ export class ResourceManager {
             }
         }
 
-        const id = crypto.randomUUID();
+        const id = createId();
 
         const resourceType = this._detectType(file);
 

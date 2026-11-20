@@ -3,6 +3,7 @@ import { ResourceManager } from "./resource-manager.js";
 import { ResourceHandler } from "./resource-handler.js";
 import { QuestionEditor } from "./question-editor.js";
 import { createGameArchive } from "./builder.js";
+import { createId } from "./id.js";
 
 export class GameController {
     constructor(boardController) {
@@ -11,7 +12,7 @@ export class GameController {
 
         this.game = { rounds: [], resources: this.resourceManager };
         this.game.meta = {
-            id: crypto.randomUUID(),
+            id: createId(),
             title: "",
             description: "",
             created: new Date().toISOString(),
