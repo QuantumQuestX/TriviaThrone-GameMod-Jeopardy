@@ -25,7 +25,15 @@ async function initializeGame() {
         throw new Error("Could not load lobby information");
     }
 
-    const lobby = await response.json();
+    const responseBody = await response.text();
+    if (!responseBody.trim()) {
+        localStorage.removeItem("lobbyDetails");
+        window.location.href = "/";
+
+        return;
+    }
+
+    const lobby = JSON.parse(responseBody);
 
     if (!lobby) {
         localStorage.removeItem("lobbyDetails");
