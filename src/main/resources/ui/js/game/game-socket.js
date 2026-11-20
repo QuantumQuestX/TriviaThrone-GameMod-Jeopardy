@@ -17,6 +17,11 @@ export const Actions = Object.freeze({
 
 let currentTopic = null;
 
+export async function connectToLobby(lobbyCode, username, password = null) {
+    await socket.connectSocket("/ws/lobby");
+    joinLobby(lobbyCode, username, password);
+}
+
 export async function subscribeToGame(lobbyCode, onStateUpdate) {
     await socket.connectSocket("/ws/lobby");
 
@@ -38,6 +43,14 @@ export function sendAction(lobbyCode, action, details = {}) {
         lobbyCode,
         action,
         parameters: details,
+    });
+}
+
+export function joinLobby(lobbyCode, username, password = null) {
+    socket.send("/app/join", {
+        name: username,
+        lobbyCode,
+        password,
     });
 }
 

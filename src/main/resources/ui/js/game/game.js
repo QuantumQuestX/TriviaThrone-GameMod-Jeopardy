@@ -1,7 +1,7 @@
 import * as gameSocket from "./game-socket.js";
 import { apiFetch } from "/js/root/api.js";
 import { getCurrentUser } from "/js/root/auth.js";
-import { getLobbyDetails } from "/js/root/lobby-storage.js";
+import { getLobbyDetails, getLobbyPassword } from "/js/root/lobby-storage.js";
 import { configureGameControls } from "./game-controls.js";
 import { GameView } from "./game-view.js";
 
@@ -19,6 +19,7 @@ if (!lobbyCode) {
 }
 
 async function initializeGame() {
+    await gameSocket.connectToLobby(lobbyCode, currentUser, getLobbyPassword() || null);
     const response = await apiFetch(`/api/lobbies/info?code=${encodeURIComponent(lobbyCode)}`);
 
     if (!response.ok) {
@@ -27,10 +28,7 @@ async function initializeGame() {
 
     const responseBody = await response.text();
     if (!responseBody.trim()) {
-        localStorage.removeItem("lobbyDetails");
-        window.location.href = "/";
-
-        return;
+        throw new Error(`Lobby information response was empty (HTTP ${response.status})`);
     }
 
     const lobby = JSON.parse(responseBody);
